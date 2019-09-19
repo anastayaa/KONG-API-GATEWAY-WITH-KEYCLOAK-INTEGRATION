@@ -68,7 +68,7 @@ curl -i -X POST --url http://localhost:8001/services/neoxia-service-v1/plugins/ 
 curl -X POST http://localhost:8001/consumers --data "username=demo-consumer"
 
 CONSUMER_ID=629b99cb-bc22-41a0-bec5-dbe7872db7c5
-that quite soon. It is not a big thing to do.
+
 TOKEN_ISSUER="http://localhost:8080/auth/realms/demo-realm"
 
 RSA_PUB_KEY=`cat mykey-pub.pem`
