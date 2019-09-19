@@ -4,11 +4,15 @@ Client-Server node js microservices using Kong API Gateway with integration of k
 ============== Creationg Node apps containers:
 
 cd serverApp
+
 docker build -t node-server-image .
+
 docker run --name node-server-container -p 3001:3001 -d node-server-image
 
 cd clientApp
+
 docker build -t node-client-image .
+
 docker run --name node-client-container -p 3000:3000 -d node-client-image
 
 ================ Create docker network
