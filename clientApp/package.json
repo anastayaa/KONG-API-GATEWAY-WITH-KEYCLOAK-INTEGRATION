@@ -1,0 +1,13 @@
+{
+  "name": "docker_client_app",
+  "version": "1.0.0",
+  "description": "Node.js on Docker",
+  "author": "Anas TAYAA <anas.tayaagi@gmail.com>",
+  "main": "node.js",
+  "scripts": {
+    "start": "node node.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

@@ -1,0 +1,19 @@
+version: "3.3"
+services: 
+  web-server:
+    container_name: node-server-container
+    image: node-server-image
+    ports:
+      - "3001:3001"
+    volumes:
+      - serverApp:/home/anas/keycloak/mount_folder
+  web-client:
+    container_name: node-client-container
+    image: node-client-image
+    ports:
+      - "3000:3000"
+    volumes:
+      - clientApp:/home/anas/keycloak/mount_folder
+volumes:
+  serverApp:
+  clientApp:
