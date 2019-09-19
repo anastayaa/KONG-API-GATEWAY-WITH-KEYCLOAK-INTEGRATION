@@ -1,7 +1,0 @@
-docker build -t node-server-image .
-
-docker run --name node-server-container -p 3001:3001 -d node-server-image
-
-docker build -t node-client-image .
-
-docker run --name node-client-container -p 3000:3000 -d node-client-image
