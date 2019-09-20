@@ -58,8 +58,20 @@ docker run \
   -p 8080:8080 \
   jboss/keycloak
 
+--- Adding service to kong:
 
---- Adding jwt plugin to an existing service: neoxia-service-v1
+curl -i -X POST \
+  --url http://localhost:8001/services/ \
+  --data 'name=neoxia-service-v1' \
+  --data 'url=http://@node-server-container:3001/data'
+  
+--- Ading route to the service:
+
+curl -i -X POST \
+  --url http://localhost:8001/services/neoxia-service-v1/routes \
+  --data 'paths[]=/data'
+
+--- Adding jwt plugin to the neoxia-service-v1 service
 
 curl -i -X POST --url http://localhost:8001/services/neoxia-service-v1/plugins/ --data 'name=jwt'
 
