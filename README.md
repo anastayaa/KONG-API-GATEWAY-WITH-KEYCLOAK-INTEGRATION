@@ -12,6 +12,7 @@ Fortunately, there are open-source solutions that provide out-of-the-box robust 
 
 The goal of this project is hence to setup a basic microservice environment using Kong as a gateway and Keycloak as the authentication suite. The end result will thus look something like this:
 
+![alt test](screens/kongkeycloak.png)
 
 
 Getting Started
