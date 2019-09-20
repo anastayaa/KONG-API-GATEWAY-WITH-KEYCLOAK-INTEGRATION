@@ -1,6 +1,8 @@
 # KONG-API-GATEWAY-WITH-KEYCLOAK-INTEGRATION
 Client-Server node js microservices using Kong API Gateway with integration of keycloak authentication
 
+Clone this repository to your local machine
+
 ============== Creationg Node apps containers:
 
 cd serverApp
