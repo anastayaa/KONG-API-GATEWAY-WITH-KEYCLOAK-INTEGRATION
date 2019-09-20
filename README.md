@@ -14,10 +14,97 @@ The goal of this project is hence to setup a basic microservice environment usin
 
 ![alt test](screens/kongkeycloak.png)
 
+1. Upon trying to access a protected endpoint, the user is redirected to the Keycloak login page if there is no active session.
+2. Keycloak issues an access and refresh token to the user, which are also cached by the client and used in subsequent requests to protected components.
+3. The client can now access protected components behind the Kong gateway by filling the Authorization HTTP header with the access token (or use the refresh token to request a new access token from Keycloak if the old access token has expired).
+4. The Kong gateway validates the access token, the signature, the issuers, and the expiration time. If the validation is successful, the request proceeds to the protected component.
+5. The protected component can decode the access token for extra context on the user (eg. role, username, etc.), before sending a response.
+6. The Kong gateway then forwards the response back to the client.
+
 
 ## Getting Started
 
-Clone this repository to your local machine
+First, Clone this repository to your local machine
+
+### Setup Kong
+#### 1.1 Initialize database
+Kong can interface with either Cassandra or Postgres. I this example we will use Cassandra DB.
+```
+docker run -d --name neoxia-database \
+               --network=neoxia-net \
+               -p 9042:9042 \
+               cassandra:3
+```
+Then prepare the database for Kong.
+```
+docker run --rm \
+     --network=neoxia-net \
+     -e "KONG_DATABASE=cassandra" \
+     -e "KONG_CASSANDRA_KEYSPACE=neoxia" \
+     -e "KONG_CASSANDRA_CONTACT_POINTS=neoxia-database" \
+     kong:latest kong migrations bootstrap
+```
+#### 1.2 Initialize kong
+```
+docker run -d --name neoxia-container\
+     --network=neoxia-net \
+     -e "KONG_DATABASE=cassandra" \
+     -e "KONG_CASSANDRA_KEYSPACE=neoxia" \
+     -e "KONG_CASSANDRA_CONTACT_POINTS=neoxia-database" \
+     -e "KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl" \
+     -p 8000:8000 \
+     -p 8443:8443 \
+     -p 8001:8001 \
+     -p 8444:8444 \
+     kong:latest
+```
+### Setup Keycloak
+#### 2.1 Initialize Keycloak
+```
+docker run \
+  -e KEYCLOAK_USER=admin \
+  -e KEYCLOAK_PASSWORD=admin \
+  --name keycloak \
+  -p 8080:8080 \
+  jboss/keycloak
+```
+#### 2.2 Configure Keycloak
+##### 2.2.1 Create a Realm
+A realm secures and manages metadata for a set of users, applications, and registered clients.
+
+Navigate to the Keycloak admin interface at localhost:8080. Use the admin credentials passed to the Keycloak initialization routine in the previous section to login.
+
+Hover over the default realm, an Add realm button will be displayed. Add a new realm demo-realm
+##### 2.2.2 Create a User
+Create a new user and navigate to the Credentials tab and enter a password.
+![alt test](screens/createUser.png)
+![alt test](screens/createcredential.png)
+##### 2.2.3 Create a Client
+Clients map to the applications that belong to our realm.
+![alt test](screens/createClient.png)
+Once the client is created, we’ll be redirected to the client settings view. Scroll down and add http://localhost:3000/* to the Valid Redirect URIs field. Also add http://localhost:3000 to the Web Origins field. Note that http://localhost:3000 is where our app client will be running on. A Valid Redirect URI is the location a browser redirects to after a successful login or logout. Adding our client host to the Web Origins field also ensures CORS is enabled.
+### Setup the Protected Component
+#### 3.1 Create the Component
+Change location to the server application, build a new image and run a new containe
+```
+cd serverApp
+docker build -t node-server-image .
+docker run --name node-server-container -p 3001:3001 -d node-server-image
+```
+The server app is listned on port 3001 with endpoint /data: http://localhost:3001/data
+#### 3.1 Declare the Component with Kong
+
+
+
+
+
+
+
+
+
+
+
+
 
 ============== Creationg Node apps containers:
 
