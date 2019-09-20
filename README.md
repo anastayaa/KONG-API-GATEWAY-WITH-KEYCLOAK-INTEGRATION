@@ -1,6 +1,6 @@
-# KONG-API-GATEWAY-WITH-KEYCLOAK-INTEGRATION
+# Microservices architecture with Kong API Gateway and Keycloak integration
 
-# Context
+## Context
 
 The modularity that microservice architectures allow for means that code (ie, individual components) can be reused in multiple scenarios. For example, a component managing customer subscriptions can be reused in many different applications whose business logic requires it. However, departing from monolithic architectures comes along with some challenges revolving around 1) managing and 2) securing components.
 
@@ -15,7 +15,7 @@ The goal of this project is hence to setup a basic microservice environment usin
 ![alt test](screens/kongkeycloak.png)
 
 
-Getting Started
+## Getting Started
 
 Clone this repository to your local machine
 
